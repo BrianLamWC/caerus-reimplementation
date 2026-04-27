@@ -1,0 +1,165 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1777276501078,
+  "projectRoot": "/Users/brianlam/SocketAdventures",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "master",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "Caerus": {
+      "path": "Caerus",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1777276501065,
+      "keyFiles": [
+        "AWS_EC2_FREE_TIER_4NODE_PLAN.md",
+        "Dockerfile",
+        "README.md",
+        "memo.txt",
+        "test_outputs.txt"
+      ]
+    },
+    "Caerus/test": {
+      "path": "Caerus/test",
+      "purpose": "Test files",
+      "fileCount": 4,
+      "lastAccessed": 1777276501066,
+      "keyFiles": [
+        "1.json",
+        "2.json",
+        "Makefile"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "Caerus/Server/utils.h",
+      "accessCount": 3,
+      "lastAccessed": 1777278059567,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/queueTS.h",
+      "accessCount": 3,
+      "lastAccessed": 1777278060349,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/merger.h",
+      "accessCount": 3,
+      "lastAccessed": 1777278060506,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/transaction.h",
+      "accessCount": 2,
+      "lastAccessed": 1777277510730,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/Makefile",
+      "accessCount": 2,
+      "lastAccessed": 1777277510883,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/partialSequencer.h",
+      "accessCount": 2,
+      "lastAccessed": 1777277516053,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/batcher.h",
+      "accessCount": 2,
+      "lastAccessed": 1777277516500,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/server.h",
+      "accessCount": 2,
+      "lastAccessed": 1777277517431,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/graph.h",
+      "accessCount": 2,
+      "lastAccessed": 1777278185001,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/client.h",
+      "accessCount": 1,
+      "lastAccessed": 1777277239671,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/logger.h",
+      "accessCount": 1,
+      "lastAccessed": 1777277239875,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/main.cpp",
+      "accessCount": 1,
+      "lastAccessed": 1777277248582,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/servers.json",
+      "accessCount": 1,
+      "lastAccessed": 1777277262990,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/data.json",
+      "accessCount": 1,
+      "lastAccessed": 1777277263015,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/partialSequencer.cpp",
+      "accessCount": 1,
+      "lastAccessed": 1777277793068,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/Server/queueTS.cpp",
+      "accessCount": 1,
+      "lastAccessed": 1777277793147,
+      "type": "file"
+    },
+    {
+      "path": "Caerus/.claude/settings.local.json",
+      "accessCount": 1,
+      "lastAccessed": 1777278854214,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

@@ -1,0 +1,11 @@
+{
+  "active": false,
+  "started_at": "2026-04-27T08:06:52.482Z",
+  "original_prompt": "/deep-interview --standard /deep-interview \"Restructure /Server for consistency \u2014 naming conventions, \nfile structure, and code organization only. No behavior changes.\n\nScope:\n- Standardize variable and function naming conventions\n- Standardize file/folder structure and naming\n- Ensure consistent code organization patterns across files\n- Flag any bugs or potential bugs found, but DO NOT fix them\n\nExplicitly out of scope:\n- Logic changes\n- Bug fixes\n- Performance improvements\n- New features\n\nAfter producing the plan, split tasks into two files:\n\n.omc/plans/claude-tasks.md\nTasks requiring judgment \u2014 ambiguous naming decisions, structural \npatterns that need a consistent standard decided, anything where \nthe right answer isn't obvious from the code alone.\n\n.omc/plans/codex-tasks.md\nMechanical tasks \u2014 renaming variables/files to an already-decided \nconvention, moving files to an already-decided structure, applying \na consistent pattern that has already been defined.\n\nClaude tasks must complete first. Write a handoff summary to \n.omc/plans/handoff.md when done, documenting all conventions and \ndecisions made so Codex has full context before starting.\"",
+  "session_id": "600d4a76-d331-4d73-a5bb-68a2efd55665",
+  "project_path": "/Users/brianlam/SocketAdventures/Caerus",
+  "reinforcement_count": 4,
+  "awaiting_confirmation": true,
+  "last_checked_at": "2026-04-27T08:47:36Z",
+  "completed_at": "2026-04-27T08:47:36Z"
+}

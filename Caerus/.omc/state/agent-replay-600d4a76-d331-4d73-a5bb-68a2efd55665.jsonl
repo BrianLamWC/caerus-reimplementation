@@ -1,0 +1,17 @@
+{"t":0,"agent":"system","event":"keyword_detected","keyword":"ralph"}
+{"t":0,"agent":"system","event":"keyword_detected","keyword":"deep-interview"}
+{"t":0,"agent":"system","event":"mode_change","mode_from":"none","mode_to":"ralph"}
+{"t":0,"agent":"system","event":"keyword_detected","keyword":"ralph"}
+{"t":0,"agent":"system","event":"keyword_detected","keyword":"deep-interview"}
+{"t":0,"agent":"system","event":"mode_change","mode_from":"none","mode_to":"ralph"}
+{"t":0,"agent":"a15442b","agent_type":"Explore","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a15442b","agent_type":"Explore","event":"agent_stop","success":true,"duration_ms":68825}
+{"t":0,"agent":"system","event":"skill_invoked","skill_name":"oh-my-claudecode:cancel"}
+{"t":0,"agent":"a2bc0a0","agent_type":"architect","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a2bc0a0","agent_type":"architect","event":"agent_stop","success":true,"duration_ms":117732}
+{"t":0,"agent":"a628c44","agent_type":"architect","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a628c44","agent_type":"architect","event":"agent_stop","success":true,"duration_ms":53688}
+{"t":0,"agent":"system","event":"skill_invoked","skill_name":"oh-my-claudecode:cancel"}
+{"t":0,"agent":"system","event":"keyword_detected","keyword":"deep-interview"}
+{"t":0,"agent":"a3fd23d","agent_type":"unknown","event":"agent_stop","success":true}
+{"t":0,"agent":"a885498","agent_type":"unknown","event":"agent_stop","success":true}
