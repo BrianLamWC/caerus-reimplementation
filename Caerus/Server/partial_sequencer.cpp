@@ -1,5 +1,5 @@
 #include <chrono>
-#include "partialSequencer.h"
+#include "partial_sequencer.h"
 #include <netinet/in.h>
 #include <thread>
 #include <fstream>
@@ -28,7 +28,7 @@ void PartialSequencer::processPartialSequence()
         std::this_thread::sleep_until(deadline);
 
         // grab all requests for this window (may be empty)
-        auto batch = batcher_to_partial_sequencer_queue_.popAll();
+        auto batch = batcher_to_partial_sequencer_queue.popAll();
 
         if (batch.empty())
         {
@@ -37,29 +37,29 @@ void PartialSequencer::processPartialSequence()
             continue;
         }
 
-        partial_sequence_.Clear();
-        partial_sequence_.set_server_id(my_id);
-        partial_sequence_.set_recipient(request::Request::MERGER);
-        partial_sequence_.set_round(static_cast<int32_t>(window));
+        partial_sequence_proto.Clear();
+        partial_sequence_proto.set_server_id(my_id);
+        partial_sequence_proto.set_recipient(request::Request::MERGER);
+        partial_sequence_proto.set_round(static_cast<int32_t>(window));
 
         for (auto &req : batch)
         {
             // each req.transaction(0) is a local write for your primaries
-            partial_sequence_.add_transaction()->CopyFrom(req.transaction(0));
+            partial_sequence_proto.add_transaction()->CopyFrom(req.transaction(0));
         }
 
         // log if partial sequence is not empty
-        if (partial_sequence_.transaction_size() > 0)
+        if (partial_sequence_proto.transaction_size() > 0)
         {
             std::ofstream logf("partial_sequence_log_" + std::to_string(my_id) + ".log",
                                std::ios::app);
             if (logf)
             {
-                for (int i = 0; i < partial_sequence_.transaction_size(); ++i)
+                for (int i = 0; i < partial_sequence_proto.transaction_size(); ++i)
                 {
                     logf << "round=" << window
-                         << " tx=" << partial_sequence_.transaction(i).id()
-                         << " ops=" << partial_sequence_.transaction(i).operations_size()
+                         << " tx=" << partial_sequence_proto.transaction(i).id()
+                         << " ops=" << partial_sequence_proto.transaction(i).operations_size()
                          << "\n";
                 }
             }
@@ -67,7 +67,7 @@ void PartialSequencer::processPartialSequence()
 
         {
             std::lock_guard<std::mutex> lk(partial_sequencer_to_merger_queue_mtx);
-            partial_sequencer_to_merger_queue_.push(partial_sequence_);
+            partial_sequencer_to_merger_queue.push(partial_sequence_proto);
         } // unlock first
 
         partial_sequencer_to_merger_queue_cv.notify_one();
@@ -86,15 +86,15 @@ void PartialSequencer::sendPartialSequence()
         int target_id = target.first;
         int &connfd = merger_fds[target_id];
 
-        partial_sequence_.set_target_server_id(target_id);
+        partial_sequence_proto.set_target_server_id(target_id);
 
         std::ofstream logf("partial_sequence_sent_" + std::to_string(my_id) + ".log", std::ios::app);
         if (logf)
         {
-            for (const auto &txn : partial_sequence_.transaction())
+            for (const auto &txn : partial_sequence_proto.transaction())
             {
                 logf << "to=" << target_id
-                     << " round=" << partial_sequence_.round()
+                     << " round=" << partial_sequence_proto.round()
                      << " tx=" << txn.id()
                      << " ops=" << txn.operations_size()
                      << "\n";
@@ -105,7 +105,7 @@ void PartialSequencer::sendPartialSequence()
         if (connfd < 0)
         {
 
-            server target = target_peers[target_id];
+            ServerInfo target = target_peers[target_id];
 
             while ((connfd = setupConnection(target.ip, target.port)) < 0)
             {
@@ -117,7 +117,7 @@ void PartialSequencer::sendPartialSequence()
         }
 
         std::string serialized_request;
-        if (!partial_sequence_.SerializeToString(&serialized_request))
+        if (!partial_sequence_proto.SerializeToString(&serialized_request))
         {
             perror("SerializeToString failed");
             close(connfd);
@@ -148,7 +148,7 @@ void PartialSequencer::pushReceivedTransactionIntoPartialSequence(const request:
     }
 
     // Push the transaction into the queue
-    batcher_to_partial_sequencer_queue_.push(req_proto);
+    batcher_to_partial_sequencer_queue.push(req_proto);
 }
 
 PartialSequencer::PartialSequencer()

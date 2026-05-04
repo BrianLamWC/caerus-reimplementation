@@ -18,7 +18,7 @@
 #define SERVERLIST "servers.json"
 #define MOCKDB "data.json"
 
-struct server
+struct ServerInfo
 {
     std::string ip;
     int port;
@@ -31,7 +31,7 @@ struct server
 
 struct PingerThreadArgs
 {
-    std::vector<server>* servers;
+    std::vector<ServerInfo>* servers;
     int num_servers;
     int my_port;
 };
@@ -41,7 +41,7 @@ class Pinger
 private:
     PingerThreadArgs args;
 public:
-    Pinger(std::vector<server>* servers, int num_servers, int my_port);
+    Pinger(std::vector<ServerInfo>* servers, int num_servers, int my_port);
     void* pingPeers();
     bool pingAPeer(const std::string &ip, int port);
 };
@@ -52,33 +52,33 @@ public:
 struct DataItem
 {
     std::string val;
-    int32_t primaryCopyID;
+    int32_t primary_copy_id;
 
     // (optional) convenience constructor
     DataItem(std::string v, int32_t p, std::string m = "")
-        : val(std::move(v)), primaryCopyID(p) {} //use move beccause it just steals the buffer instead of allocating a new buffer
+        : val(std::move(v)), primary_copy_id(p) {} //use move beccause it just steals the buffer instead of allocating a new buffer
 
     // equality: all fields must match
     bool operator==(DataItem const &o) const noexcept
     {
-        return val == o.val && primaryCopyID == o.primaryCopyID;
+        return val == o.val && primary_copy_id == o.primary_copy_id;
     }
 };
 
-extern std::unordered_map<std::string, DataItem> mockDB;
-extern std::unordered_map<std::string, DataItem> mockDB_logging;
+extern std::unordered_map<std::string, DataItem> mock_db;
+extern std::unordered_map<std::string, DataItem> mock_db_logging;
 
 // SERVER ID
 
 extern int peer_port;
 extern int32_t my_id;
 
-extern std::vector<server> servers;
+extern std::vector<ServerInfo> servers;
 
 // HASH COMBINE FUNCTION
 
 template <class T>
-inline void hash_combine(std::size_t& seed, const T& v)
+inline void hashCombine(std::size_t& seed, const T& v)
 {
     std::hash<T> hasher;
     seed ^= hasher(v)
@@ -97,8 +97,8 @@ namespace std
         {
             
             size_t h = 0;
-            hash_combine(h, d.val);
-            hash_combine(h, d.primaryCopyID);
+            hashCombine(h, d.val);
+            hashCombine(h, d.primary_copy_id);
             return h;
 
         }

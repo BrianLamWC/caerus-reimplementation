@@ -45,7 +45,7 @@ void Batcher::batchRequests()
         auto next_timestamp = LOGICAL_EPOCH + std::chrono::milliseconds((current_window + 1) * ROUND_PERIOD.count());
 
         // Pull all transactions from the request queue
-        batch = request_queue_.popAll();
+        batch = request_queue.popAll();
 
         // Log the received transactions
         if (!batch.empty())
@@ -96,8 +96,8 @@ void Batcher::processBatch()
         bool validTransaction = true;
         for (const auto &op : txn->operations())
         {
-            auto it = mockDB.find(op.key());
-            if (it == mockDB.end())
+            auto it = mock_db.find(op.key());
+            if (it == mock_db.end())
             {
                 printf("  Key %s not found in the mock database\n", op.key().c_str());
                 validTransaction = false;
@@ -105,7 +105,7 @@ void Batcher::processBatch()
             }
 
             const DataItem &data_item = it->second;
-            target_peers.insert(data_item.primaryCopyID);
+            target_peers.insert(data_item.primary_copy_id);
         }
 
         if (!validTransaction)
@@ -156,7 +156,7 @@ void Batcher::processBatch()
             std::cerr << "Failed to open log file for batcher " << my_id << "\n";
         }
 
-        batcher_to_partial_sequencer_queue_.pushAll(batch_for_partial_sequencer);
+        batcher_to_partial_sequencer_queue.pushAll(batch_for_partial_sequencer);
     }
 }
 
@@ -168,7 +168,7 @@ void Batcher::sendTransaction(request::Request &req_proto) // send batch actuall
     // (re)connect on-demand if we lost it
     if (connfd < 0)
     {
-        server target = target_peers[target_id];
+        ServerInfo target = target_peers[target_id];
 
         while ((connfd = setupConnection(target.ip, target.port)) < 0)
         {

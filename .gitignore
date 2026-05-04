@@ -17,3 +17,5 @@ db_state/
 
 # Ignore ssh directory  
 .ssh/
+
+.omc/

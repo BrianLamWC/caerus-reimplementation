@@ -12,7 +12,7 @@
 #include <memory>
 
 #include "transaction.h"
-#include "queueTS.h"
+#include "queue_ts.h"
 #include "../proto/request.pb.h"
 #include "../proto/graph_snapshot.pb.h"
 #include "graph.h"
@@ -38,7 +38,7 @@ private:
     pthread_t dump_thread;
 
     // map server_id → queue of Transactions
-    std::unordered_map<int32_t, std::unique_ptr<Queue_TS<std::vector<Transaction>>>> partial_sequences;
+    std::unordered_map<int32_t, std::unique_ptr<QueueTS<std::vector<Transaction>>>> partial_sequences;
 
     // mutexes
     std::mutex ready_mtx;
@@ -46,8 +46,8 @@ private:
 
     // List of expected server IDs.
     std::vector<int32_t> expected_server_ids;
-    std::deque<int> ready_q_;               // which server ids need processing
-    std::unordered_set<int> enqueued_sids_; // coalesce: sid is already in ready_q_
+    std::deque<int> ready_q;               // which server ids need processing
+    std::unordered_set<int> enqueued_sids; // coalesce: sid is already in ready_q
 
     // Copy of the graph
     Graph graph;

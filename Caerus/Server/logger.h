@@ -7,11 +7,11 @@
 #include <fstream>
 #include <filesystem>
 
-#include "queueTS.h" 
+#include "queue_ts.h" 
 #include "transaction.h"
 #include "utils.h"
 
-extern Queue_TS<Transaction> merged_order;
+extern QueueTS<Transaction> merged_order;
 extern std::mutex logging_mutex;
 extern std::condition_variable logging_cv;
 

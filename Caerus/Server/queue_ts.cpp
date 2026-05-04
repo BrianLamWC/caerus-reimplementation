@@ -1,23 +1,23 @@
 #include <vector>
-#include "queueTS.h"
+#include "queue_ts.h"
 
 // Global instantiations:
-Queue_TS<request::Request> request_queue_;
+QueueTS<request::Request> request_queue;
 
-Queue_TS<request::Request> batcher_to_partial_sequencer_queue_;
+QueueTS<request::Request> batcher_to_partial_sequencer_queue;
 
-Queue_TS<request::Request> partial_sequencer_to_merger_queue_;
+QueueTS<request::Request> partial_sequencer_to_merger_queue;
 std::mutex partial_sequencer_to_merger_queue_mtx;
 std::condition_variable partial_sequencer_to_merger_queue_cv;
 
 template<typename T>
-void Queue_TS<T>::push(const T& val) {
+void QueueTS<T>::push(const T& val) {
     std::lock_guard<std::mutex> lock(mtx);
     q.push_back(val);  // use push_back for deque
 }
 
 template<typename T>
-void Queue_TS<T>::pushAll(const std::vector<T>& items) {
+void QueueTS<T>::pushAll(const std::vector<T>& items) {
     std::lock_guard<std::mutex> lock(mtx);
     for (const auto &v : items) {
       q.push_back(v);
@@ -25,13 +25,13 @@ void Queue_TS<T>::pushAll(const std::vector<T>& items) {
 }
 
 template <typename T>
-bool Queue_TS<T>::empty() {
+bool QueueTS<T>::empty() {
     std::lock_guard<std::mutex> lock(mtx);
     return q.empty();
 }
 
 template<typename T>
-std::vector<T> Queue_TS<T>::popAll() {
+std::vector<T> QueueTS<T>::popAll() {
     std::lock_guard<std::mutex> lock(mtx);
     std::vector<T> items;
     while (!q.empty()) {
@@ -42,7 +42,7 @@ std::vector<T> Queue_TS<T>::popAll() {
 }
 
 template <typename T>
-T Queue_TS<T>::pop() {
+T QueueTS<T>::pop() {
     std::lock_guard<std::mutex> lock(mtx);
     if (q.empty()) {
         throw std::runtime_error("pop() called on empty queue");
@@ -53,15 +53,15 @@ T Queue_TS<T>::pop() {
 }
 
 template <typename T>
-std::vector<T> Queue_TS<T>::snapshot() const {
+std::vector<T> QueueTS<T>::snapshot() const {
     std::lock_guard<std::mutex> lock(mtx);   
     return std::vector<T>(q.begin(), q.end()); 
 }
 
 // Explicit template instantiations:
-template class Queue_TS<request::Transaction>;
-template class Queue_TS<Transaction>;
-template class Queue_TS<std::vector<Transaction>>;
+template class QueueTS<request::Transaction>;
+template class QueueTS<Transaction>;
+template class QueueTS<std::vector<Transaction>>;
 
-template class Queue_TS<std::vector<request::Request>>;
-template class Queue_TS<request::Request>;
+template class QueueTS<std::vector<request::Request>>;
+template class QueueTS<request::Request>;

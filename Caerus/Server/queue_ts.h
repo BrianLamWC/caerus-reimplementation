@@ -10,7 +10,7 @@
 
 // QUEUES
 template<typename T>
-class Queue_TS
+class QueueTS
 {
 private:
 
@@ -32,13 +32,13 @@ public:
 };
 
 // queue for client requests to batcher
-extern Queue_TS<request::Request> request_queue_;
+extern QueueTS<request::Request> request_queue;
 
 // queue for batcher to partial sequencer
-extern Queue_TS<request::Request> batcher_to_partial_sequencer_queue_;
+extern QueueTS<request::Request> batcher_to_partial_sequencer_queue;
 
 // queue for partial sequencer to merger
-extern Queue_TS<request::Request> partial_sequencer_to_merger_queue_;
+extern QueueTS<request::Request> partial_sequencer_to_merger_queue;
 extern std::mutex partial_sequencer_to_merger_queue_mtx;
 extern std::condition_variable partial_sequencer_to_merger_queue_cv;
 

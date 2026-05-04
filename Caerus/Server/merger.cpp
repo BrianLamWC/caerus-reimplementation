@@ -16,8 +16,8 @@ void Merger::popFromQueue()
         {
             std::unique_lock<std::mutex> local_lock(partial_sequencer_to_merger_queue_mtx);
             partial_sequencer_to_merger_queue_cv.wait(local_lock, []
-                                                      { return !partial_sequencer_to_merger_queue_.empty(); });
-            req_proto = partial_sequencer_to_merger_queue_.pop();
+                                                      { return !partial_sequencer_to_merger_queue.empty(); });
+            req_proto = partial_sequencer_to_merger_queue.pop();
         }
 
         processRequest(req_proto);
@@ -62,7 +62,7 @@ void Merger::processRequest(const request::Request &req_proto)
         return;
     }
 
-    auto &q = it->second; // get the Queue_TS<Transaction> for this server
+    auto &q = it->second; // get the QueueTS<Transaction> for this server
     std::vector<Transaction> transactions;
 
     for (const auto &txn_proto : req_proto.transaction())
@@ -80,10 +80,10 @@ void Merger::processRequest(const request::Request &req_proto)
 
     {
         std::lock_guard<std::mutex> g(ready_mtx); // lock ready queue mutex
-        if (!enqueued_sids_.count(sid))
+        if (!enqueued_sids.count(sid))
         {
-            enqueued_sids_.insert(sid);
-            ready_q_.push_back(sid);
+            enqueued_sids.insert(sid);
+            ready_q.push_back(sid);
 
             ready_cv.notify_one();
         }
@@ -96,11 +96,11 @@ void Merger::insertAlgorithm()
 
     while (true)
     {
-        ready_cv.wait(lk, [this]() { return !ready_q_.empty(); }); // wait until there is work to do
+        ready_cv.wait(lk, [this]() { return !ready_q.empty(); }); // wait until there is work to do
 
-        int sid = ready_q_.front();
-        ready_q_.pop_front();
-        enqueued_sids_.erase(sid);
+        int sid = ready_q.front();
+        ready_q.pop_front();
+        enqueued_sids.erase(sid);
 
         lk.unlock(); // unlock ready queue mutex while working
 
@@ -122,9 +122,9 @@ void Merger::insertAlgorithm()
         {
             for (const auto &op : txn.getOperations())
             {
-                auto db_it = mockDB.find(op.key);
+                auto db_it = mock_db.find(op.key);
 
-                if (db_it == mockDB.end())
+                if (db_it == mock_db.end())
                 {
                     std::cout << "INSERT::PrimarySet: key " << op.key << " not found" << std::endl;
                     continue;
@@ -132,7 +132,7 @@ void Merger::insertAlgorithm()
 
                 auto data_item = db_it->second;
 
-                if (data_item.primaryCopyID == sid)
+                if (data_item.primary_copy_id == sid)
                 {
                     primary_set.insert(data_item);
                 }
@@ -152,9 +152,9 @@ void Merger::insertAlgorithm()
             for (const auto &op : txn.getOperations())
             {
 
-                auto it = mockDB.find(op.key);
+                auto it = mock_db.find(op.key);
 
-                if (it == mockDB.end())
+                if (it == mock_db.end())
                 {
                     std::cout << "INSERT::ReadWriteSet: key " << op.key << " not found" << std::endl;
                     continue;
@@ -171,7 +171,7 @@ void Merger::insertAlgorithm()
                     read_set.insert(data_item);
                 }
 
-                expected_regions.insert(data_item.primaryCopyID); // add primary copy id to expected regions
+                expected_regions.insert(data_item.primary_copy_id); // add primary copy id to expected regions
 
                 // pritn read and write set
                 // std::cout << "INSERT::ReadWriteSet: key " << op.key << " type " << (op.type == OperationType::READ ? "READ" : "WRITE") << std::endl;
@@ -204,17 +204,17 @@ void Merger::insertAlgorithm()
                 if (mrw_id.empty())
                 { // no previous writer
                     // std::cout << "INSERT::READSET: no previous writer for data item ("
-                    //           << data_item.val << ", " << data_item.primaryCopyID
+                    //           << data_item.val << ", " << data_item.primary_copy_id
                     //           << ")" << std::endl;
-                    graph.add_MRR(data_item, curr_txn->getID());
+                    graph.addMostRecentReader(data_item, curr_txn->getID());
                 }
                 else if (mrw and mrw->getID() != curr_txn->getID())
                 { // previous writer in graph
                     // std::cout << "INSERT::READSET: previous writer for data item ("
-                    //           << data_item.val << ", " << data_item.primaryCopyID
+                    //           << data_item.val << ", " << data_item.primary_copy_id
                     //           << ") is transaction " << mrw_id << std::endl;
                     graph.addNeighborOut(curr_txn, mrw);
-                    graph.add_MRR(data_item, curr_txn->getID());
+                    graph.addMostRecentReader(data_item, curr_txn->getID());
                 }
                 else if (!mrw)
                 { // previous writer not in graph
@@ -237,7 +237,7 @@ void Merger::insertAlgorithm()
                 if (mrw_id.empty())
                 {
                     // true "no previous writer"
-                    graph.add_MRW(data_item, curr_txn);
+                    graph.addMostRecentWriter(data_item, curr_txn);
                     graph.clearMRRIds(data_item);
                     continue;
                 }
@@ -257,7 +257,7 @@ void Merger::insertAlgorithm()
                     }
                 }
 
-                graph.add_MRW(data_item, curr_txn);
+                graph.addMostRecentWriter(data_item, curr_txn);
                 graph.clearMRRIds(data_item);
             }
         }
@@ -269,10 +269,10 @@ void Merger::insertAlgorithm()
             auto it2 = partial_sequences.find(sid);
             if (it2 != partial_sequences.end() && !it2->second->empty())
             {
-                if (!enqueued_sids_.count(sid))
+                if (!enqueued_sids.count(sid))
                 {
-                    enqueued_sids_.insert(sid);
-                    ready_q_.push_back(sid);
+                    enqueued_sids.insert(sid);
+                    ready_q.push_back(sid);
                     ready_cv.notify_one();
                 }
             }
@@ -282,7 +282,7 @@ void Merger::insertAlgorithm()
 
         // call graph cleanup for merged orders and log if any removed
         {
-            int removed = graph.getMergedOrders_();
+            int removed = graph.getMergedOrders();
             if (removed > 0)
             {
                 std::cout << "MERGER: removed " << removed << " node from graph" << std::endl;
@@ -302,7 +302,7 @@ Merger::Merger()
     partial_sequences.reserve(servers.size());
     for (const auto &server : servers)
     {
-        partial_sequences.emplace(server.id, std::make_unique<Queue_TS<std::vector<Transaction>>>());
+        partial_sequences.emplace(server.id, std::make_unique<QueueTS<std::vector<Transaction>>>());
         expected_server_ids.push_back(server.id);
     }
 

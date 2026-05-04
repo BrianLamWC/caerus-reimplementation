@@ -6,7 +6,7 @@
 #include "client.h"
 #include "utils.h"
 #include "batcher.h"
-#include "partialSequencer.h"
+#include "partial_sequencer.h"
 #include "merger.h"
 #include "graph.h"
 #include "logger.h"
@@ -77,4 +77,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-

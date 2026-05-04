@@ -14,7 +14,7 @@
 
 #include "utils.h"
 #include "transaction.h"
-#include "queueTS.h"
+#include "queue_ts.h"
 #include "../proto/request.pb.h"
 
 class Batcher
@@ -26,14 +26,14 @@ private:
     pthread_t batcher_thread;
 
     pthread_t sender_thread;
-    Queue_TS <request::Request> outbound_queue;
+    QueueTS <request::Request> outbound_queue;
     std::mutex batch_mutex;
     std::condition_variable batch_cv;
 
-    std::unordered_map<int, server> target_peers;
+    std::unordered_map<int, ServerInfo> target_peers;
     std::unordered_map<int,int> partial_sequencer_fds; // id to fd mapping for partial sequencer connections
 
-    int32_t next_round_{0};
+    int32_t next_round{0};
 
 public:
 

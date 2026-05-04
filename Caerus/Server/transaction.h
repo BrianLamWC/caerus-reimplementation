@@ -29,7 +29,7 @@ private:
     // intrusive adjacency list
     std::unordered_set<Transaction*> neighbors_out;
     std::unordered_set<Transaction*> neighbors_in;
-    std::unordered_set<std::string> neigbors_in_ids;
+    std::unordered_set<std::string> neighbors_in_ids;
 
     std::unordered_set<int32_t> expected_regions;
     std::unordered_set<int32_t> seen_regions;
@@ -52,7 +52,7 @@ public:
     }
 
     void addNeighborInID(const std::string& neighbor_id) {
-        neigbors_in_ids.insert(neighbor_id);
+        neighbors_in_ids.insert(neighbor_id);
     }
 
     void removeOutNeighbor(Transaction* ptr) { 
@@ -69,7 +69,7 @@ public:
 
     const std::unordered_set<Transaction*>& getIncomingNeighbors() const { return neighbors_in; }
 
-    const std::unordered_set<std::string>& getIncomingNeighborIDs() const { return neigbors_in_ids; }
+    const std::unordered_set<std::string>& getIncomingNeighborIDs() const { return neighbors_in_ids; }
 
     void setExpectedRegions(const std::unordered_set<int32_t>& regions) { expected_regions = regions; }
     const std::unordered_set<int32_t>& getExpectedRegions() const { return expected_regions; }

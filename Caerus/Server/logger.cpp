@@ -6,7 +6,7 @@
 #include "json.hpp"
 using json = nlohmann::json;
 
-Queue_TS<Transaction> merged_order;
+QueueTS<Transaction> merged_order;
 std::mutex logging_mutex;
 std::condition_variable logging_cv;
 
@@ -21,13 +21,13 @@ void Logger::dumpDB() {
 
     ofs << "{\"data_items\":[\n";
     bool first = true;
-    for (auto& [key,item] : mockDB_logging) {
+    for (auto& [key,item] : mock_db_logging) {
         if (!first) ofs << ",\n";
         first = false;
         ofs
           << "  {\"key\":\""     << key
           << "\",\"value\":\""   << item.val
-          << "\",\"primary_server_id\":" << item.primaryCopyID
+          << "\",\"primary_server_id\":" << item.primary_copy_id
           << "}";
     }
     ofs << "\n]}\n";
@@ -66,7 +66,7 @@ void Logger::logMergedOrders()
             continue; // nothing to log
         }
 
-        // apply changes to mockDB_logging
+        // apply changes to mock_db_logging
         
         for(auto & txn : txns){
 
@@ -75,15 +75,15 @@ void Logger::logMergedOrders()
 
                 if (op.type == OperationType::WRITE) {
                     // write operation
-                    auto it = mockDB_logging.find(op.key);
-                    if (it != mockDB_logging.end()) {
+                    auto it = mock_db_logging.find(op.key);
+                    if (it != mock_db_logging.end()) {
                         it->second.val = op.value; // update value
                     }
 
                 } else if (op.type == OperationType::READ) {
                     // read operation, we can log or ignore it as needed
-                    auto it = mockDB_logging.find(op.key);
-                    if (it != mockDB_logging.end()) {
+                    auto it = mock_db_logging.find(op.key);
+                    if (it != mock_db_logging.end()) {
                         // log read operation if necessary
                     }
                 }
@@ -122,5 +122,4 @@ Logger::~Logger() {
     logging_cv.notify_all();
 
 }
-
 

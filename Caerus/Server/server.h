@@ -6,7 +6,7 @@
 #include <netinet/in.h>
 
 #include "utils.h"
-#include "partialSequencer.h"
+#include "partial_sequencer.h"
 #include "merger.h"
 
 struct PeerListenerThreadsArgs

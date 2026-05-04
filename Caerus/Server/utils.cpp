@@ -10,12 +10,12 @@
 
 using json = nlohmann::json;
 
-std::unordered_map<std::string, DataItem> mockDB;
-std::unordered_map<std::string, DataItem> mockDB_logging;
+std::unordered_map<std::string, DataItem> mock_db;
+std::unordered_map<std::string, DataItem> mock_db_logging;
 
 int peer_port;
 int32_t my_id;
-std::vector<server> servers;
+std::vector<ServerInfo> servers;
 
 
 std::string LEADER_IP;
@@ -165,8 +165,8 @@ void setupMockDB(){
 
     for (auto data_item : data_items)
     {
-        mockDB.insert({data_item["key"], {data_item["value"], (int32_t) data_item["primary_server_id"]} });
-        mockDB_logging.insert({data_item["key"], {data_item["value"], (int32_t) data_item["primary_server_id"]} });
+        mock_db.insert({data_item["key"], {data_item["value"], (int32_t) data_item["primary_server_id"]} });
+        mock_db_logging.insert({data_item["key"], {data_item["value"], (int32_t) data_item["primary_server_id"]} });
     }
     
     file.close();
@@ -234,7 +234,7 @@ std::vector<Operation> getOperationsFromProtoTransaction(const request::Transact
     return operations;
 }
 
-Pinger::Pinger(std::vector<server>* servers, int num_servers, int my_port){
+Pinger::Pinger(std::vector<ServerInfo>* servers, int num_servers, int my_port){
 
     args = {servers, num_servers, my_port};
     pthread_t pinger_thread;

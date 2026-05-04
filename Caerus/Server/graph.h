@@ -12,7 +12,7 @@
 #include <condition_variable>
 
 #include "transaction.h"
-#include "queueTS.h"
+#include "queue_ts.h"
 #include "utils.h"
 #include "../proto/graph_snapshot.pb.h"
 
@@ -39,7 +39,7 @@ private:
     std::vector<std::vector<int>> neighbors_in;               // incoming edges of each SCC (indexed by SCC index)
     mutable std::mutex snapshot_mtx;                                // protects nodes_static + merged snapshot data
 
-    Queue_TS<Transaction> merged;
+    QueueTS<Transaction> merged;
 
 public:
     Transaction *addNode(std::unique_ptr<Transaction> uptr);
@@ -47,11 +47,11 @@ public:
     std::vector<Transaction*> getAllNodes() const;
     void addNeighborOut(Transaction* from, Transaction* to);
 
-    void add_MRW(DataItem item, Transaction* txn); // probably only used by insert algo
-    void remove_MRW(DataItem item); // probably only used when we remove a transaction from the graph
+    void addMostRecentWriter(DataItem item, Transaction* txn); // probably only used by insert algo
+    void removeMostRecentWriter(DataItem item); // probably only used when we remove a transaction from the graph
     std::string getMostRecentWriterID(DataItem item);
-    void add_MRR(DataItem item, const std::string& txn_id); // probably only used by insert algo
-    void remove_MRR(DataItem item, const std::string& txn_id); // probably only used when we remove a transaction from the graph
+    void addMostRecentReader(DataItem item, const std::string& txn_id); // probably only used by insert algo
+    void removeMostRecentReader(DataItem item, const std::string& txn_id); // probably only used when we remove a transaction from the graph
     std::unordered_set<std::string> getMostRecentReadersIDs(DataItem item);
     void clearMRRIds(DataItem item);
 
@@ -65,7 +65,7 @@ public:
     void buildCondensationGraph();
     bool isSCCComplete(const int &scc_index);
 
-    int32_t getMergedOrders_();
+    int32_t getMergedOrders();
 
     // Build a GraphSnapshot protobuf message representing the current graph.
     // This will lock the graph while making a copy into the protobuf.

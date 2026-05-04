@@ -144,7 +144,7 @@ void *handleClient(void *client_args)
             }
         }
 
-        request_queue_.push(req_proto);
+        request_queue.push(req_proto);
     }
 
     close(connfd);

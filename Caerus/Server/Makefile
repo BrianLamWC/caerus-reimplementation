@@ -2,11 +2,11 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -Wall -g
+CXXFLAGS = -Wall -g -std=c++17 $(shell pkg-config --cflags protobuf)
 
 # Additional protobuf flags and files
 PROTO_SRC = ../proto/request.pb.cc ../proto/graph_snapshot.pb.cc
-PROTO_LIBS = -lprotobuf
+PROTO_LIBS = $(shell pkg-config --libs protobuf)
 
 # Build directory
 BUILDDIR = build
