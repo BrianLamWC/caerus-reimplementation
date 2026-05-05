@@ -16,6 +16,7 @@
 
 
 #define SERVERLIST "servers.json"
+#define LOCAL_SERVERLIST "local_servers.json"
 #define MOCKDB "data.json"
 
 struct ServerInfo
@@ -25,6 +26,7 @@ struct ServerInfo
     int32_t id;
     bool isOnline;
     bool isLeader;
+    int client_port;
 };
 
 // PINGER THREAD
@@ -138,7 +140,7 @@ bool setNonBlocking(int listenfd);
 void threadError(const char *msg);
 int setupConnection(const std::string& ip, int port);
 void setupMockDB();
-void getServers();
+void getServers(bool local_mode);
 std::vector<Operation> getOperationsFromProtoTransaction(const request::Transaction& txn_proto);
 ssize_t readNBytes(int fd, void *buf, size_t n);
 bool writeNBytes(int fd, const void *buf, size_t n);

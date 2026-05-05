@@ -14,10 +14,21 @@
 
 int main(int argc, char *argv[])
 {
-    if (argc != 2)
+    if (argc < 2 || argc > 3)
     {
-        std::cerr << "Usage: " << argv[0] << " <id>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <id> [local]" << std::endl;
         return 1;
+    }
+
+    bool local_mode = false;
+    if (argc == 3)
+    {
+        if (std::string(argv[2]) != "local")
+        {
+            std::cerr << "Usage: " << argv[0] << " <id> [local]" << std::endl;
+            return 1;
+        }
+        local_mode = true;
     }
 
     signal(SIGPIPE, SIG_IGN);
@@ -25,12 +36,33 @@ int main(int argc, char *argv[])
     peer_port = 8001;
     int client_port = 7001;
     my_id = std::stoi(argv[1]);
- 
+
     // setup mockdb
     setupMockDB();
 
     // get list of servers
-    getServers();
+    getServers(local_mode);
+
+    // in local mode, override ports from this node's config entry
+    if (local_mode)
+    {
+        bool found = false;
+        for (const auto& s : servers)
+        {
+            if (s.id == my_id)
+            {
+                peer_port = s.port;
+                client_port = s.client_port;
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            std::cerr << "Error: no entry for id " << my_id << " in local_servers.json\n";
+            return 1;
+        }
+    }
     int num_servers = servers.size();
 
     

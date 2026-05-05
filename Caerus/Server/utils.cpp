@@ -173,14 +173,22 @@ void setupMockDB(){
 
 }
 
-void getServers()
+void getServers(bool local_mode)
 {
-
-    std::ifstream file(SERVERLIST);
+    const char* filename = local_mode ? LOCAL_SERVERLIST : SERVERLIST;
+    std::ifstream file(filename);
 
     if (!file.is_open())
     {
-        error("getServers: error opening file");
+        if (local_mode)
+        {
+            std::cerr << "Error: local_servers.json not found in current directory.\n"
+                      << "Create it for local mode. See local_servers.json.example for the template.\n";
+        }
+        else
+        {
+            error("getServers: error opening file");
+        }
         exit(1);
     }
 
@@ -190,7 +198,8 @@ void getServers()
 
     for (auto& server : servers_list)
     {
-        servers.push_back({server["ip"], server["port"], (int32_t) server["id"], false, (bool) server["leader"]});
+        int cp = server.contains("client_port") ? (int)server["client_port"] : 7001;
+        servers.push_back({server["ip"], server["port"], (int32_t) server["id"], false, (bool) server["leader"], cp});
 
 
         if ((bool)server["leader"] == true)

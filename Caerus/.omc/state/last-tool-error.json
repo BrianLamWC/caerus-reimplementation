@@ -1,7 +1,0 @@
-{
-  "tool_name": "Bash",
-  "tool_input_preview": "{\"command\":\"find /Users/brianlam/SocketAdventures/.omc/state -name \\\"ultrawork-state.json\\\" 2>/dev/null\\ncat /Users/brianlam/SocketAdventures/.omc/state/sessions/600d4a76-d331-4d73-a5bb-68a2efd55665/u...",
-  "error": "Exit code 1",
-  "timestamp": "2026-04-27T08:42:32.285Z",
-  "retry_count": 1
-}

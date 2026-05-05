@@ -8,9 +8,13 @@
 # Ignore build directory
 build/
 
-# Ignore log files  
+# Ignore log files
 logs/
 db_state/
+*.log
+*.jsonl
+batcher_logs/
+merger_logs/
 
 # Ignore bash scripts   
 *.sh
