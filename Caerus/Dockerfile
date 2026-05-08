@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     cmake \
     make \
     g++ \
+    pkg-config \
     libprotobuf-dev \
     protobuf-compiler \
     uuid-dev \
@@ -24,12 +25,12 @@ WORKDIR /app
 # Copy all source code into the image
 COPY . .
 
-# Build the protobuf files (only if .proto is present)
-RUN protoc --cpp_out=proto proto/request.proto
+RUN protoc -I=proto --cpp_out=proto \
+    proto/request.proto \
+    proto/graph_snapshot.proto
 
-# Build client and server
-RUN make -C Client
 RUN make -C Server
+RUN make -C test
 
 # Set working directory to Server
 WORKDIR /app/Server

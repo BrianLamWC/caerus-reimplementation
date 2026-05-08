@@ -14,6 +14,7 @@
 
 int main(int argc, char *argv[])
 {
+    setbuf(stdout, NULL);
     if (argc < 2 || argc > 3)
     {
         std::cerr << "Usage: " << argv[0] << " <id> [local]" << std::endl;

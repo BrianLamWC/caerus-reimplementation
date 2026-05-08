@@ -1,0 +1,7 @@
+{
+    "servers": [
+        { "ip": "server1", "port": 8001, "client_port": 7001, "id": 1, "leader": true },
+        { "ip": "server2", "port": 8001, "client_port": 7001, "id": 2, "leader": false },
+        { "ip": "server3", "port": 8001, "client_port": 7001, "id": 3, "leader": false }
+    ]
+}

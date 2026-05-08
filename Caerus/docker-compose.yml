@@ -1,0 +1,57 @@
+services:
+  server1:
+    build: .
+    container_name: caerus-server1
+    hostname: server1
+    command: ./build/main 1 local
+    ports:
+      - "8001:8001"
+      - "7001:7001"
+    volumes:
+      - ./docker_servers.json:/app/Server/local_servers.json:ro
+    networks:
+      - caerus
+
+  server2:
+    build: .
+    container_name: caerus-server2
+    hostname: server2
+    command: ./build/main 2 local
+    ports:
+      - "8002:8001"
+      - "7002:7001"
+    volumes:
+      - ./docker_servers.json:/app/Server/local_servers.json:ro
+    networks:
+      - caerus
+
+  server3:
+    build: .
+    container_name: caerus-server3
+    hostname: server3
+    command: ./build/main 3 local
+    ports:
+      - "8003:8001"
+      - "7003:7001"
+    volumes:
+      - ./docker_servers.json:/app/Server/local_servers.json:ro
+    networks:
+      - caerus
+
+  client:
+    build: .
+    container_name: caerus-client
+    working_dir: /app/test
+    command: sleep infinity
+    volumes:
+      - ./docker_servers.json:/app/Server/local_servers.json:ro
+    depends_on:
+      - server1
+      - server2
+      - server3
+    networks:
+      - caerus
+
+networks:
+  caerus:
+    driver: bridge

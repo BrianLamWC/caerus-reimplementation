@@ -1,0 +1,4 @@
+Server/build/
+test/main
+test/main.dSYM/
+test/*.o
