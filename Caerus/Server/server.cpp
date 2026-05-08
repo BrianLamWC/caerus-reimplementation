@@ -2,6 +2,7 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <cstring>
+#include <fcntl.h>
 
 #include "server.h"
 #include "../proto/request.pb.h"
@@ -153,7 +154,7 @@ void *peerListener(void *args)
 
         if (connfd < 0)
         {
-            if (errno == EWOULDBLOCK)
+            if (errno == EWOULDBLOCK || errno == EAGAIN)
             {
                 usleep(10000);
                 continue;
@@ -163,6 +164,10 @@ void *peerListener(void *args)
                 threadError("serverListener: error accepting connection");
             }
         }
+
+        // make accepted socket blocking so readNBytes works correctly on macOS
+        int flags = fcntl(connfd, F_GETFL, 0);
+        fcntl(connfd, F_SETFL, flags & ~O_NONBLOCK);
 
         // server args
         ServerArgs *server_args = (ServerArgs *)malloc(sizeof(ServerArgs));

@@ -2,11 +2,11 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -Wall -g
+CXXFLAGS = -Wall -g -std=c++17 $(shell pkg-config --cflags protobuf)
 
 # Additional protobuf flags and files
 PROTO_SRC = ../proto/request.pb.cc ../proto/graph_snapshot.pb.cc
-PROTO_LIBS = -lprotobuf
+PROTO_LIBS = $(shell pkg-config --libs protobuf)
 
 # All .cpp files in the current directory
 SRC = main.cpp
@@ -21,7 +21,7 @@ TARGET = main
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(PROTO_SRC) $(PROTO_LIBS) -luuid
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(PROTO_SRC) $(PROTO_LIBS)
 
 # Rule to build .o files from .cpp files
 %.o: %.cpp

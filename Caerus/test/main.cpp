@@ -85,14 +85,17 @@ struct TxnSpec
 
 std::map<std::string, int> hostnames_to_id;
 std::map<int, int> server_id_to_port;
+std::map<int, std::string> server_id_to_ip;
 const std::string servers_config_path = "../Server/servers.json";
+const std::string local_servers_config_path = "../Server/local_servers.json";
 
-void loadServersConfig()
+void loadServersConfig(bool local_mode)
 {
-    std::ifstream file(servers_config_path);
+    const std::string &path = local_mode ? local_servers_config_path : servers_config_path;
+    std::ifstream file(path);
     if (!file.is_open())
     {
-        std::cerr << "loadServersConfig: error opening file " << servers_config_path << "\n";
+        std::cerr << "loadServersConfig: error opening file " << path << "\n";
         exit(1);
     }
 
@@ -100,14 +103,16 @@ void loadServersConfig()
     auto servers = data["servers"];
     hostnames_to_id.clear();
     server_id_to_port.clear();
+    server_id_to_ip.clear();
 
     for (const auto &server : servers)
     {
         std::string ip = server["ip"];
         int id = server["id"];
-        int port = 7001;
+        int port = server.contains("client_port") ? (int)server["client_port"] : 7001;
         hostnames_to_id[ip] = id;
         server_id_to_port[id] = port;
+        server_id_to_ip[id] = ip;
     }
     file.close();
 }
@@ -161,22 +166,24 @@ int setupConnection(const char *host, int port)
 
 void connectToAllServers(std::map<int, int> &server_id_to_fd)
 {
-    for (const auto &pair : hostnames_to_id)
+    for (const auto &pair : server_id_to_ip)
     {
-        auto pit = server_id_to_port.find(pair.second);
+        int server_id = pair.first;
+        const std::string &ip = pair.second;
+        auto pit = server_id_to_port.find(server_id);
         if (pit == server_id_to_port.end() || pit->second <= 0)
         {
-            std::cerr << "Missing/invalid port for server_id " << pair.second << " (host " << pair.first << ")\n";
+            std::cerr << "Missing/invalid port for server_id " << server_id << "\n";
             continue;
         }
         int port = pit->second;
-        int fd = setupConnection(pair.first.c_str(), port);
+        int fd = setupConnection(ip.c_str(), port);
         if (fd < 0)
         {
-            std::cerr << "Can't connect to " << pair.first << ":" << port << "\n";
+            std::cerr << "Can't connect to " << ip << ":" << port << "\n";
             continue;
         }
-        server_id_to_fd[pair.second] = fd;
+        server_id_to_fd[server_id] = fd;
     }
 }
 
@@ -297,7 +304,7 @@ std::vector<std::vector<TxnSpec>> parseJsonFile(const std::string &filename)
 
 void requestMergedOrderFromHost(const int server_id, const int fd);
 void compareSnapshots();
-void verfiyMergedOrderFromHost(const std::string &host);
+void verfiyMergedOrderFromHost(int32_t server_id);
 void generateRandomTransactions(int num_txns, int max_ops_per_txn);
 
 void initSentTxnLog(const std::string &path)
@@ -377,7 +384,7 @@ void handleCommand(const std::string &command)
 
         compareSnapshots();
 
-        for (const auto &p : hostnames_to_id)
+        for (const auto &p : server_id_to_ip)
         {
             verfiyMergedOrderFromHost(p.first);
         }
@@ -643,16 +650,8 @@ void compareSnapshots()
     return;
 }
 
-void verfiyMergedOrderFromHost(const std::string &host)
+void verfiyMergedOrderFromHost(int32_t server_id)
 {
-    auto hit = hostnames_to_id.find(host);
-    if (hit == hostnames_to_id.end())
-    {
-        std::cerr << "Unknown host: " << host << "\n";
-        return;
-    }
-    int32_t server_id = hit->second;
-
     auto mit = host_merged_order_map.find(server_id);
     if (mit == host_merged_order_map.end())
     {
@@ -782,11 +781,12 @@ void generateRandomTransactions(int num_txns, int max_ops_per_txn)
     }
 
 }
-int main()
+int main(int argc, char *argv[])
 {
+    bool local_mode = (argc == 2 && std::string(argv[1]) == "local");
     GOOGLE_PROTOBUF_VERIFY_VERSION;
     std::string command;
-    loadServersConfig();
+    loadServersConfig(local_mode);
     setupMockDB();
     initSentTxnLog("./sent_transactions.log");
     while (true)

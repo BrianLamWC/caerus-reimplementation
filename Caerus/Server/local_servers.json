@@ -1,0 +1,7 @@
+{
+    "servers": [
+        { "ip": "127.0.0.1", "port": 8001, "client_port": 7001, "id": 1, "leader": true },
+        { "ip": "127.0.0.1", "port": 8002, "client_port": 7002, "id": 2, "leader": false },
+        { "ip": "127.0.0.1", "port": 8003, "client_port": 7003, "id": 3, "leader": false }
+    ]
+}

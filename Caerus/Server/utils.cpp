@@ -456,5 +456,6 @@ bool Coordinator::sendReadyToLeader(const std::string &leader_ip, int leader_por
     }    
 
     printf("Coordinator: READY sent to leader %s:%d\n", leader_ip.c_str(), leader_port);
+    close(connfd);
     return true;
 }
