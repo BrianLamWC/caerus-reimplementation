@@ -32,6 +32,7 @@ message Request {
     START = 5;
     READY = 6;
     MERGED = 7;
+    MERGED_HASH = 8;
   }
 
   optional int32 client_id = 1;     // Client ID making the request

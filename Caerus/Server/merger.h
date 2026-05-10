@@ -67,6 +67,7 @@ public:
 
     // Send merged orders (as a Request with recipient MERGED_ORDER) to the given fd.
     void sendMergedOrdersOnFd(int fd);
+    void sendMergedHashOnFd(int fd);
 };
 
 #endif // MERGER_H

@@ -123,17 +123,18 @@ enum Request_RequestRecipient : int {
   Request_RequestRecipient_START = 5,
   Request_RequestRecipient_READY = 6,
   Request_RequestRecipient_MERGED = 7,
+  Request_RequestRecipient_MERGED_HASH = 8,
 };
 
 extern const uint32_t Request_RequestRecipient_internal_data_[];
 inline constexpr Request_RequestRecipient Request_RequestRecipient_RequestRecipient_MIN =
     static_cast<Request_RequestRecipient>(0);
 inline constexpr Request_RequestRecipient Request_RequestRecipient_RequestRecipient_MAX =
-    static_cast<Request_RequestRecipient>(7);
+    static_cast<Request_RequestRecipient>(8);
 inline bool Request_RequestRecipient_IsValid(int value) {
-  return 0 <= value && value <= 7 && ((251u >> value) & 1) != 0;
+  return 0 <= value && value <= 8 && ((507u >> value) & 1) != 0;
 }
-inline constexpr int Request_RequestRecipient_RequestRecipient_ARRAYSIZE = 7 + 1;
+inline constexpr int Request_RequestRecipient_RequestRecipient_ARRAYSIZE = 8 + 1;
 const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL Request_RequestRecipient_descriptor();
 template <typename T>
 const ::std::string& Request_RequestRecipient_Name(T value) {
@@ -144,7 +145,7 @@ const ::std::string& Request_RequestRecipient_Name(T value) {
 }
 template <>
 inline const ::std::string& Request_RequestRecipient_Name(Request_RequestRecipient value) {
-  return ::google::protobuf::internal::NameOfDenseEnum<Request_RequestRecipient_descriptor, 0, 7>(
+  return ::google::protobuf::internal::NameOfDenseEnum<Request_RequestRecipient_descriptor, 0, 8>(
       static_cast<int>(value));
 }
 inline bool Request_RequestRecipient_Parse(
@@ -826,6 +827,7 @@ class Request final : public ::google::protobuf::Message
   static constexpr RequestRecipient START = Request_RequestRecipient_START;
   static constexpr RequestRecipient READY = Request_RequestRecipient_READY;
   static constexpr RequestRecipient MERGED = Request_RequestRecipient_MERGED;
+  static constexpr RequestRecipient MERGED_HASH = Request_RequestRecipient_MERGED_HASH;
   static inline bool RequestRecipient_IsValid(int value) {
     return Request_RequestRecipient_IsValid(value);
   }

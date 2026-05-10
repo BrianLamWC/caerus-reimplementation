@@ -188,21 +188,22 @@ const char descriptor_table_protodef_request_2eproto[] ABSL_ATTRIBUTE_SECTION_VA
     "rationType\022\010\n\004READ\020\000\022\t\n\005WRITE\020\001\"y\n\013Trans"
     "action\022\r\n\005order\030\001 \001(\t\022\n\n\002id\030\002 \002(\t\022&\n\nope"
     "rations\030\003 \003(\0132\022.request.Operation\022\021\n\tcli"
-    "ent_id\030\004 \001(\005\022\024\n\014random_stamp\030\005 \001(\005\"\266\002\n\007R"
+    "ent_id\030\004 \001(\005\022\024\n\014random_stamp\030\005 \001(\005\"\307\002\n\007R"
     "equest\022\021\n\tclient_id\030\001 \001(\005\022\021\n\tserver_id\030\002"
     " \001(\005\022)\n\013transaction\030\003 \003(\0132\024.request.Tran"
     "saction\0224\n\trecipient\030\004 \002(\0162!.request.Req"
     "uest.RequestRecipient\022\r\n\005round\030\005 \001(\005\022\030\n\020"
     "target_server_id\030\006 \001(\005\022\025\n\rbatcher_round\030"
-    "\007 \001(\005\"d\n\020RequestRecipient\022\013\n\007BATCHER\020\000\022\013"
+    "\007 \001(\005\"u\n\020RequestRecipient\022\013\n\007BATCHER\020\000\022\013"
     "\n\007PARTIAL\020\001\022\n\n\006MERGER\020\003\022\010\n\004PING\020\004\022\t\n\005STA"
-    "RT\020\005\022\t\n\005READY\020\006\022\n\n\006MERGED\020\007"
+    "RT\020\005\022\t\n\005READY\020\006\022\n\n\006MERGED\020\007\022\017\n\013MERGED_HA"
+    "SH\020\010"
 };
 static ::absl::once_flag descriptor_table_request_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_request_2eproto = {
     false,
     false,
-    587,
+    604,
     descriptor_table_protodef_request_2eproto,
     "request.proto",
     &descriptor_table_request_2eproto_once,
@@ -227,7 +228,7 @@ const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL Request_RequestRecipi
   return file_level_enum_descriptors_request_2eproto[1];
 }
 PROTOBUF_CONSTINIT const uint32_t Request_RequestRecipient_internal_data_[] = {
-    131072u, 32u, 62u, };
+    131072u, 32u, 126u, };
 // ===================================================================
 
 class Operation::_Internal {

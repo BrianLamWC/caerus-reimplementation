@@ -143,6 +143,19 @@ void *handleClient(void *client_args)
                 break;
             }
         }
+        else if (req_proto.recipient() == request::Request::MERGED_HASH)
+        {
+            if (merger)
+            {
+                merger->sendMergedHashOnFd(connfd);
+                continue;
+            }
+            else
+            {
+                fprintf(stderr, "CLIENT_HANDLER: no merger available to serve MERGED_HASH\n");
+                break;
+            }
+        }
 
         request_queue.push(req_proto);
     }

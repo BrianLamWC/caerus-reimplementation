@@ -75,6 +75,8 @@ struct TxnNeighbors
 std::map<int32_t, std::set<TxnNeighbors>> host_txn_neighbors_map;
 // Global map: server_id -> merged order vector
 std::map<int32_t, std::vector<TxnNeighbors>> host_merged_order_map;
+// Global map: server_id -> merged order hash
+std::map<int32_t, uint64_t> host_hash_map;
 
 struct TxnSpec
 {
@@ -305,6 +307,8 @@ std::vector<std::vector<TxnSpec>> parseJsonFile(const std::string &filename)
 void requestMergedOrderFromHost(const int server_id, const int fd);
 void compareSnapshots();
 void verfiyMergedOrderFromHost(int32_t server_id);
+void requestMergedHashFromHost(const int server_id, const int fd);
+void compareHashes();
 void generateRandomTransactions(int num_txns, int max_ops_per_txn);
 
 void initSentTxnLog(const std::string &path)
@@ -359,6 +363,28 @@ void logSentTxnOneLine(const request::Request &req)
 
 void handleCommand(const std::string &command)
 {
+    // fast hash-based consistency check
+    if (command == "compare hashes")
+    {
+        host_hash_map.clear();
+
+        std::map<int,int> server_id_to_fd;
+        connectToAllServers(server_id_to_fd);
+
+        for (const auto &p : server_id_to_fd)
+        {
+            if (p.second <= 0)
+            {
+                std::cerr << "Skipping server_id " << p.first << " due to invalid fd.\n";
+                continue;
+            }
+            requestMergedHashFromHost(p.first, p.second);
+        }
+
+        compareHashes();
+        return;
+    }
+
     // get merged orders from all known servers
     if (command == "get merged")
     {
@@ -544,6 +570,64 @@ void requestMergedOrderFromHost(const int server_id, const int fd)
     }
 
     close(fd);
+}
+
+void requestMergedHashFromHost(const int server_id, const int fd)
+{
+    request::Request hash_req;
+    hash_req.set_client_id(getpid());
+    hash_req.set_recipient(request::Request::MERGED_HASH);
+
+    if (!sendProtoFramed(fd, hash_req))
+    {
+        std::cerr << "Failed to send MERGED_HASH to " << server_id << "\n";
+        close(fd);
+        return;
+    }
+
+    request::MergedOrderHash hash_proto;
+    if (!recvProtoFramed(fd, hash_proto))
+    {
+        std::cerr << "Failed to receive MergedOrderHash from " << server_id << "\n";
+        close(fd);
+        return;
+    }
+
+    std::cout << "Hash from server_id=" << server_id << ": " << hash_proto.hash() << "\n";
+
+    if (server_id != -1)
+        host_hash_map[server_id] = hash_proto.hash();
+
+    close(fd);
+}
+
+void compareHashes()
+{
+    if (host_hash_map.size() < 2)
+    {
+        std::cout << "Need at least 2 servers to compare hashes.\n";
+        return;
+    }
+
+    auto it = host_hash_map.begin();
+    uint64_t ref_hash = it->second;
+    int32_t ref_id = it->first;
+    bool all_match = true;
+
+    for (++it; it != host_hash_map.end(); ++it)
+    {
+        if (it->second != ref_hash)
+        {
+            std::cout << "HASH MISMATCH: server " << ref_id << " hash=" << ref_hash
+                      << " vs server " << it->first << " hash=" << it->second << "\n";
+            all_match = false;
+        }
+    }
+
+    if (all_match)
+        std::cout << "All hashes match.\n";
+    else
+        std::cout << "Hashes differ — run 'get merged' for full comparison.\n";
 }
 
 void compareSnapshots()

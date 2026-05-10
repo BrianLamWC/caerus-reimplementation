@@ -360,3 +360,39 @@ void Merger::sendMergedOrdersOnFd(int fd)
         return;
     }
 }
+
+void Merger::sendMergedHashOnFd(int fd)
+{
+    request::GraphSnapshot snap;
+    graph.buildSnapshotProto(snap);
+
+    std::size_t seed = 0;
+    for (int i = 0; i < snap.merged_order_size(); ++i)
+        hashCombine(seed, snap.merged_order(i).tx_id());
+
+    request::MergedOrderHash hash_msg;
+    hash_msg.set_node_id(snap.node_id());
+    hash_msg.set_hash(static_cast<uint64_t>(seed));
+
+    std::string payload;
+    if (!hash_msg.SerializeToString(&payload))
+    {
+        std::cerr << "MERGER: failed to serialize MergedOrderHash" << std::endl;
+        return;
+    }
+
+    uint32_t len = static_cast<uint32_t>(payload.size());
+    uint32_t netlen = htonl(len);
+
+    if (!writeNBytes(fd, &netlen, sizeof(netlen)))
+    {
+        std::cerr << "MERGER: failed to write hash length to fd " << fd << std::endl;
+        return;
+    }
+
+    if (!writeNBytes(fd, payload.data(), payload.size()))
+    {
+        std::cerr << "MERGER: failed to write hash payload to fd " << fd << std::endl;
+        return;
+    }
+}

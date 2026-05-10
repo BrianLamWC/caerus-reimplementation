@@ -57,6 +57,10 @@ class GraphSnapshot;
 struct GraphSnapshotDefaultTypeInternal;
 extern GraphSnapshotDefaultTypeInternal _GraphSnapshot_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull GraphSnapshot_class_data_;
+class MergedOrderHash;
+struct MergedOrderHashDefaultTypeInternal;
+extern MergedOrderHashDefaultTypeInternal _MergedOrderHash_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull MergedOrderHash_class_data_;
 class VertexAdj;
 struct VertexAdjDefaultTypeInternal;
 extern VertexAdjDefaultTypeInternal _VertexAdj_default_instance_;
@@ -321,6 +325,220 @@ class VertexAdj final : public ::google::protobuf::Message
 };
 
 extern const ::google::protobuf::internal::ClassDataFull VertexAdj_class_data_;
+// -------------------------------------------------------------------
+
+class MergedOrderHash final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:request.MergedOrderHash) */ {
+ public:
+  inline MergedOrderHash() : MergedOrderHash(nullptr) {}
+  ~MergedOrderHash() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(MergedOrderHash* PROTOBUF_NONNULL msg, ::std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(MergedOrderHash));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR MergedOrderHash(::google::protobuf::internal::ConstantInitialized);
+
+  inline MergedOrderHash(const MergedOrderHash& from) : MergedOrderHash(nullptr, from) {}
+  inline MergedOrderHash(MergedOrderHash&& from) noexcept
+      : MergedOrderHash(nullptr, ::std::move(from)) {}
+  inline MergedOrderHash& operator=(const MergedOrderHash& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline MergedOrderHash& operator=(MergedOrderHash&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const MergedOrderHash& default_instance() {
+    return *reinterpret_cast<const MergedOrderHash*>(
+        &_MergedOrderHash_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 2;
+  friend void swap(MergedOrderHash& a, MergedOrderHash& b) { a.Swap(&b); }
+  inline void Swap(MergedOrderHash* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(MergedOrderHash* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  MergedOrderHash* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<MergedOrderHash>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const MergedOrderHash& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const MergedOrderHash& from) { MergedOrderHash::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return IsInitializedImpl(*this);
+  }
+
+  private:
+  static bool IsInitializedImpl(const MessageLite& msg);
+
+  public:
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(MergedOrderHash* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "request.MergedOrderHash"; }
+
+  explicit MergedOrderHash(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  MergedOrderHash(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const MergedOrderHash& from);
+  MergedOrderHash(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, MergedOrderHash&& from) noexcept
+      : MergedOrderHash(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kNodeIdFieldNumber = 1,
+    kHashFieldNumber = 2,
+  };
+  // required string node_id = 1;
+  bool has_node_id() const;
+  void clear_node_id() ;
+  const ::std::string& node_id() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_node_id(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_node_id();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_node_id();
+  void set_allocated_node_id(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_node_id() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_node_id(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_node_id();
+
+  public:
+  // required uint64 hash = 2;
+  bool has_hash() const;
+  void clear_hash() ;
+  ::uint64_t hash() const;
+  void set_hash(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_hash() const;
+  void _internal_set_hash(::uint64_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:request.MergedOrderHash)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<1, 2,
+                                   0, 0,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const MergedOrderHash& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr node_id_;
+    ::uint64_t hash_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_graph_5fsnapshot_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull MergedOrderHash_class_data_;
 // -------------------------------------------------------------------
 
 class GraphSnapshot final : public ::google::protobuf::Message
@@ -973,6 +1191,108 @@ inline ::google::protobuf::RepeatedPtrField<::request::VertexAdj>* PROTOBUF_NONN
 GraphSnapshot::_internal_mutable_merged_order() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.merged_order_;
+}
+
+// -------------------------------------------------------------------
+
+// MergedOrderHash
+
+// required string node_id = 1;
+inline bool MergedOrderHash::has_node_id() const {
+  bool value = CheckHasBit(_impl_._has_bits_[0], 0x00000001U);
+  return value;
+}
+inline void MergedOrderHash::clear_node_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.node_id_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0],
+                  0x00000001U);
+}
+inline const ::std::string& MergedOrderHash::node_id() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:request.MergedOrderHash.node_id)
+  return _internal_node_id();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void MergedOrderHash::set_node_id(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  _impl_.node_id_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:request.MergedOrderHash.node_id)
+}
+inline ::std::string* PROTOBUF_NONNULL MergedOrderHash::mutable_node_id()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  ::std::string* _s = _internal_mutable_node_id();
+  // @@protoc_insertion_point(field_mutable:request.MergedOrderHash.node_id)
+  return _s;
+}
+inline const ::std::string& MergedOrderHash::_internal_node_id() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.node_id_.Get();
+}
+inline void MergedOrderHash::_internal_set_node_id(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.node_id_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL MergedOrderHash::_internal_mutable_node_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.node_id_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE MergedOrderHash::release_node_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:request.MergedOrderHash.node_id)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000001U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+  auto* released = _impl_.node_id_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.node_id_.Set("", GetArena());
+  }
+  return released;
+}
+inline void MergedOrderHash::set_allocated_node_id(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+  }
+  _impl_.node_id_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.node_id_.IsDefault()) {
+    _impl_.node_id_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:request.MergedOrderHash.node_id)
+}
+
+// required uint64 hash = 2;
+inline bool MergedOrderHash::has_hash() const {
+  bool value = CheckHasBit(_impl_._has_bits_[0], 0x00000002U);
+  return value;
+}
+inline void MergedOrderHash::clear_hash() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.hash_ = ::uint64_t{0u};
+  ClearHasBit(_impl_._has_bits_[0],
+                  0x00000002U);
+}
+inline ::uint64_t MergedOrderHash::hash() const {
+  // @@protoc_insertion_point(field_get:request.MergedOrderHash.hash)
+  return _internal_hash();
+}
+inline void MergedOrderHash::set_hash(::uint64_t value) {
+  _internal_set_hash(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  // @@protoc_insertion_point(field_set:request.MergedOrderHash.hash)
+}
+inline ::uint64_t MergedOrderHash::_internal_hash() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.hash_;
+}
+inline void MergedOrderHash::_internal_set_hash(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.hash_ = value;
 }
 
 #ifdef __GNUC__
