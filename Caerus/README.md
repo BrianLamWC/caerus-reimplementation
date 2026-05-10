@@ -77,14 +77,23 @@ See [AWS_EC2_FREE_TIER_4NODE_PLAN.md](AWS_EC2_FREE_TIER_4NODE_PLAN.md) for the d
 ## Building Locally
 
 ```bash
-cd Server
-make
-
-cd ../Client
-make
+make -C Server
+make -C test
 ```
 
 Dependencies: `g++`, `libprotobuf-dev`, `protobuf-compiler`, `uuid-dev`
+
+The server and test builds regenerate `proto/*.pb.cc` and `proto/*.pb.h` automatically with your local `protoc`, which helps avoid protobuf version mismatches.
+
+If you want to regenerate the protobuf sources manually, use one of these working commands:
+
+```bash
+# From the repository root
+protoc -I=proto --cpp_out=proto proto/request.proto proto/graph_snapshot.proto
+
+# From inside proto/
+protoc -I=. --cpp_out=. request.proto graph_snapshot.proto
+```
 
 ---
 

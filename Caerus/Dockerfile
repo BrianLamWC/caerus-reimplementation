@@ -25,10 +25,6 @@ WORKDIR /app
 # Copy all source code into the image
 COPY . .
 
-RUN protoc -I=proto --cpp_out=proto \
-    proto/request.proto \
-    proto/graph_snapshot.proto
-
 RUN make -C Server
 RUN make -C test
 

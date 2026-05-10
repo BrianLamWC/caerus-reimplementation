@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_oh-my-claudecode_t__state_read",
+      "Read(///wsl.localhost/Ubuntu/home/**)",
+      "Read(//c/Users/Brian/**)",
+      "Read(//root/**)",
+      "Read(///wsl.localhost/Ubuntu//**)",
+      "Bash(xargs wc -l)",
+      "mcp__plugin_oh-my-claudecode_t__state_write"
+    ]
+  }
+}
