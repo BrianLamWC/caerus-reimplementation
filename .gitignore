@@ -24,3 +24,4 @@ merger_logs/
 
 # OMC runtime state (machine-local, covers all subdirectories)
 **/.omc/state/
+**/.omc/sessions/
