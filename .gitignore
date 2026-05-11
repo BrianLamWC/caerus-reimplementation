@@ -22,4 +22,5 @@ merger_logs/
 # Ignore ssh directory  
 .ssh/
 
-.omc/
+# OMC runtime state (machine-local, covers all subdirectories)
+**/.omc/state/
