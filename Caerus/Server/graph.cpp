@@ -85,6 +85,15 @@ void Graph::addNeighborOut(Transaction* from, Transaction* to) {
         "from=" + from->getID() + " to=" + to->getID() + " out_deg=" + std::to_string(nbr.size()));
 }
 
+void Graph::addNeighborOutStatic(const std::string& from_id, const std::string& to_id) {
+    std::lock_guard<std::mutex> lock(snapshot_mtx);
+    auto it_from = nodes_static.find(from_id);
+    auto it_to   = nodes_static.find(to_id);
+    if (it_from != nodes_static.end() && it_to != nodes_static.end()) {
+        it_from->second->addNeighborOut(it_to->second.get());
+    }
+}
+
 void Graph::printAll() const
 {
     std::cout << "Graph contains " << nodes.size() << " node(s):\n";

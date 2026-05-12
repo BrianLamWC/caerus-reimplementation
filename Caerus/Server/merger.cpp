@@ -217,8 +217,9 @@ void Merger::insertAlgorithm()
                     graph.addMostRecentReader(data_item, curr_txn->getID());
                 }
                 else if (!mrw)
-                { // previous writer not in graph
-                    //std::cout << "INSERT::READSET: previous writer " << mrw_id << " not in graph" << std::endl;
+                { // previous writer was promoted — record edge in static snapshot
+                    graph.addNeighborOutStatic(curr_txn->getID(), mrw_id);
+                    graph.addMostRecentReader(data_item, curr_txn->getID());
                 }
             }
 
@@ -246,6 +247,8 @@ void Merger::insertAlgorithm()
                 {
                     if (mrw != nullptr)
                         graph.addNeighborOut(curr_txn, mrw);
+                    else
+                        graph.addNeighborOutStatic(curr_txn->getID(), mrw_id);
                 }
                 else
                 {
@@ -254,6 +257,8 @@ void Merger::insertAlgorithm()
                         auto read_txn = graph.getNode(reader_id);
                         if (read_txn != nullptr)
                             graph.addNeighborOut(curr_txn, read_txn);
+                        else
+                            graph.addNeighborOutStatic(curr_txn->getID(), reader_id);
                     }
                 }
 

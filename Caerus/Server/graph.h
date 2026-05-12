@@ -46,6 +46,7 @@ public:
     Transaction *getNode(const std::string &uuid);
     std::vector<Transaction*> getAllNodes() const;
     void addNeighborOut(Transaction* from, Transaction* to);
+    void addNeighborOutStatic(const std::string& from_id, const std::string& to_id);
 
     void addMostRecentWriter(DataItem item, Transaction* txn); // probably only used by insert algo
     void removeMostRecentWriter(DataItem item); // probably only used when we remove a transaction from the graph
