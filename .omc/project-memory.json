@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1778675926592,
+  "lastScanned": 1778773387984,
   "projectRoot": "\\\\wsl.localhost\\Ubuntu\\home\\brian\\SocketAdventures",
   "techStack": {
     "languages": [],
@@ -33,7 +33,7 @@
       "path": "Caerus",
       "purpose": null,
       "fileCount": 8,
-      "lastAccessed": 1778675926552,
+      "lastAccessed": 1778773387960,
       "keyFiles": [
         "Dockerfile",
         "image.png",
@@ -46,8 +46,8 @@
   "hotPaths": [
     {
       "path": "Caerus\\Server\\graph.cpp",
-      "accessCount": 27,
-      "lastAccessed": 1778763483662,
+      "accessCount": 29,
+      "lastAccessed": 1778775816847,
       "type": "file"
     },
     {
@@ -58,14 +58,14 @@
     },
     {
       "path": "Caerus\\Server\\merger.cpp",
-      "accessCount": 17,
-      "lastAccessed": 1778763415647,
+      "accessCount": 19,
+      "lastAccessed": 1778775785113,
       "type": "file"
     },
     {
       "path": "Caerus\\Server\\graph.h",
-      "accessCount": 14,
-      "lastAccessed": 1778763409833,
+      "accessCount": 16,
+      "lastAccessed": 1778775817370,
       "type": "file"
     },
     {
@@ -75,9 +75,21 @@
       "type": "file"
     },
     {
+      "path": "Caerus\\Server",
+      "accessCount": 11,
+      "lastAccessed": 1778773568570,
+      "type": "directory"
+    },
+    {
       "path": "Caerus/Server/utils.cpp",
       "accessCount": 10,
       "lastAccessed": 1778219338766,
+      "type": "file"
+    },
+    {
+      "path": "Caerus\\Server\\transaction.h",
+      "accessCount": 10,
+      "lastAccessed": 1778776001022,
       "type": "file"
     },
     {
@@ -93,33 +105,21 @@
       "type": "file"
     },
     {
-      "path": "Caerus\\Server\\transaction.h",
-      "accessCount": 8,
-      "lastAccessed": 1778763484584,
-      "type": "file"
-    },
-    {
       "path": "Caerus/Server/merger.h",
       "accessCount": 7,
       "lastAccessed": 1778418038283,
       "type": "file"
     },
     {
-      "path": "Caerus\\Server",
+      "path": "Caerus\\Server\\merger.h",
       "accessCount": 7,
-      "lastAccessed": 1778763423158,
-      "type": "directory"
+      "lastAccessed": 1778773498485,
+      "type": "file"
     },
     {
       "path": "Caerus\\proto\\request.proto",
       "accessCount": 6,
       "lastAccessed": 1778763409273,
-      "type": "file"
-    },
-    {
-      "path": "Caerus\\Server\\merger.h",
-      "accessCount": 6,
-      "lastAccessed": 1778763410164,
       "type": "file"
     },
     {
@@ -141,6 +141,12 @@
       "type": "file"
     },
     {
+      "path": "Caerus\\Server\\utils.h",
+      "accessCount": 5,
+      "lastAccessed": 1778773503115,
+      "type": "file"
+    },
+    {
       "path": "Caerus/test/Makefile",
       "accessCount": 4,
       "lastAccessed": 1778219306059,
@@ -156,12 +162,6 @@
       "path": "Caerus/Server/client.cpp",
       "accessCount": 4,
       "lastAccessed": 1778418051243,
-      "type": "file"
-    },
-    {
-      "path": "Caerus\\Server\\utils.h",
-      "accessCount": 4,
-      "lastAccessed": 1778763482192,
       "type": "file"
     },
     {
@@ -198,6 +198,12 @@
       "path": "Caerus/Server/merger.cpp",
       "accessCount": 3,
       "lastAccessed": 1778418047589,
+      "type": "file"
+    },
+    {
+      "path": "Caerus\\Server\\server.cpp",
+      "accessCount": 3,
+      "lastAccessed": 1778773502876,
       "type": "file"
     },
     {
@@ -243,9 +249,15 @@
       "type": "file"
     },
     {
-      "path": "Caerus\\Server\\server.cpp",
+      "path": "Caerus\\Server\\server.h",
       "accessCount": 2,
-      "lastAccessed": 1778730093819,
+      "lastAccessed": 1778773498515,
+      "type": "file"
+    },
+    {
+      "path": "Caerus\\Server\\partial_sequencer.h",
+      "accessCount": 2,
+      "lastAccessed": 1778773498544,
       "type": "file"
     },
     {
@@ -330,18 +342,6 @@
       "path": "Caerus\\Server\\utils.cpp",
       "accessCount": 1,
       "lastAccessed": 1778515477052,
-      "type": "file"
-    },
-    {
-      "path": "Caerus\\Server\\server.h",
-      "accessCount": 1,
-      "lastAccessed": 1778515477129,
-      "type": "file"
-    },
-    {
-      "path": "Caerus\\Server\\partial_sequencer.h",
-      "accessCount": 1,
-      "lastAccessed": 1778515524303,
       "type": "file"
     }
   ],
