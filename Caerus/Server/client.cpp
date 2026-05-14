@@ -156,6 +156,19 @@ void *handleClient(void *client_args)
                 break;
             }
         }
+        else if (req_proto.recipient() == request::Request::STATIC_GRAPH_HASH)
+        {
+            if (merger)
+            {
+                merger->sendStaticGraphHashOnFd(connfd);
+                continue;
+            }
+            else
+            {
+                fprintf(stderr, "CLIENT_HANDLER: no merger available to serve STATIC_GRAPH_HASH\n");
+                break;
+            }
+        }
 
         request_queue.push(req_proto);
     }

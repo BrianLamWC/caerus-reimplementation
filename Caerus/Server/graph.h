@@ -21,7 +21,7 @@ class Graph
 private:
     std::unordered_map<std::string, std::unique_ptr<Transaction>> nodes; // all nodes in the graph
     std::unordered_map<std::string, std::unique_ptr<Transaction>> nodes_static; // all nodes in the graph
-    std::unordered_map<DataItem, Transaction *> most_recent_writer; // points to only one transaction per data item
+    std::unordered_map<DataItem, std::string> most_recent_writer; // stores ID of most recent writer per data item
     std::unordered_map<DataItem, std::unordered_set<std::string>> most_recent_readers; // points to multiple transactions per data item
 
     // Tarjan’s helpers
@@ -71,6 +71,10 @@ public:
     // Build a GraphSnapshot protobuf message representing the current graph.
     // This will lock the graph while making a copy into the protobuf.
     void buildSnapshotProto(request::GraphSnapshot &out) const;
+
+    // Hash only the static graph adjacency (nodes_static) in a deterministic order.
+    // Covers tx_id + sorted out-neighbor IDs for every node, sorted by tx_id.
+    uint64_t computeStaticGraphHash() const;
 };
 
 #endif // GRAPH_H

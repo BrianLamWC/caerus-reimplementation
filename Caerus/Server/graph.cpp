@@ -186,29 +186,6 @@ std::unique_ptr<Transaction> Graph::removeTransaction(Transaction *rem)
     auto removed = std::move(it->second);
     nodes.erase(it);
 
-    // 4) remove from mrw or mrr maps
-    for (const auto &op : removed->getOperations())
-    {
-        auto db_it = mock_db.find(op.key);
-
-        if (db_it == mock_db.end())
-        {
-            std::cout << "REMOVE::ReadWriteSet: key " << op.key << " not found" << std::endl;
-            continue;
-        }
-
-        auto data_item = db_it->second;
-
-        if (op.type == OperationType::READ)
-        {
-            removeMostRecentReader(data_item, removed->getID());
-        }
-        else if (op.type == OperationType::WRITE)
-        {
-            removeMostRecentWriter(data_item);
-        }
-    }
-
     // print size of graph after removal
     //std::cout << "Graph size after removal: " << nodes.size() << " nodes remaining." << std::endl;
 
@@ -507,6 +484,33 @@ void Graph::buildSnapshotProto(request::GraphSnapshot &snap) const
 
 }
 
+uint64_t Graph::computeStaticGraphHash() const
+{
+    std::lock_guard<std::mutex> lock(snapshot_mtx);
+
+    std::vector<std::string> keys;
+    keys.reserve(nodes_static.size());
+    for (const auto &kv : nodes_static)
+        keys.push_back(kv.first);
+    std::sort(keys.begin(), keys.end());
+
+    std::size_t seed = 0;
+    for (const auto &key : keys)
+    {
+        const Transaction *tx = nodes_static.at(key).get();
+        hashCombine(seed, tx->getID());
+
+        std::vector<std::string> nbr_ids;
+        for (const Transaction *nbr : tx->getOutNeighbors())
+            nbr_ids.push_back(nbr->getID());
+        std::sort(nbr_ids.begin(), nbr_ids.end());
+        for (const auto &nbr_id : nbr_ids)
+            hashCombine(seed, nbr_id);
+    }
+
+    return static_cast<uint64_t>(seed);
+}
+
 std::vector<Transaction*> Graph::getAllNodes() const
 {
     std::vector<Transaction*> result;
@@ -526,7 +530,7 @@ void Graph::addMostRecentWriter(DataItem item, Transaction* txn)
     //           << item.val << ", " << item.primary_copy_id
     //           << ") to transaction " << txn->getID() << std::endl;
 
-    most_recent_writer[item] = txn;
+    most_recent_writer[item] = txn->getID();
 
     // std::cout << "Graph::addMostRecentWriter: set most recent writer for data item ("
     //           << item.val << ", " << item.primary_copy_id
@@ -547,12 +551,12 @@ void Graph::removeMostRecentWriter(DataItem item)
 std::string Graph::getMostRecentWriterID(DataItem item)
 {
     auto it = most_recent_writer.find(item);
-    if (it != most_recent_writer.end() && it->second != nullptr)
+    if (it != most_recent_writer.end())
     {
         // std::cout << "Graph::getMostRecentWriterID: most recent writer for data item ("
         //           << item.val << ", " << item.primary_copy_id
-        //           << ") is transaction " << it->second->getID() << std::endl;
-        return it->second->getID();
+        //           << ") is transaction " << it->second << std::endl;
+        return it->second;
     }
     // std::cout << "Graph::getMostRecentWriterID: no most recent writer for data item ("
     //           << item.val << ", " << item.primary_copy_id

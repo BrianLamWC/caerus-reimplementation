@@ -214,12 +214,13 @@ void Merger::insertAlgorithm()
                     //           << data_item.val << ", " << data_item.primary_copy_id
                     //           << ") is transaction " << mrw_id << std::endl;
                     graph.addNeighborOut(curr_txn, mrw);
+                    graph.addNeighborOutStatic(curr_txn->getID(), mrw_id);
                     graph.addMostRecentReader(data_item, curr_txn->getID());
                 }
                 else if (!mrw)
                 { // previous writer was promoted — record edge in static snapshot
-                    graph.addNeighborOutStatic(curr_txn->getID(), mrw_id);
-                    graph.addMostRecentReader(data_item, curr_txn->getID());
+                    // graph.addNeighborOutStatic(curr_txn->getID(), mrw_id);
+                    // graph.addMostRecentReader(data_item, curr_txn->getID());
                 }
             }
 
@@ -398,6 +399,37 @@ void Merger::sendMergedHashOnFd(int fd)
     if (!writeNBytes(fd, payload.data(), payload.size()))
     {
         std::cerr << "MERGER: failed to write hash payload to fd " << fd << std::endl;
+        return;
+    }
+}
+
+void Merger::sendStaticGraphHashOnFd(int fd)
+{
+    uint64_t hash_val = graph.computeStaticGraphHash();
+
+    request::MergedOrderHash hash_msg;
+    hash_msg.set_node_id(std::to_string(my_id));
+    hash_msg.set_hash(hash_val);
+
+    std::string payload;
+    if (!hash_msg.SerializeToString(&payload))
+    {
+        std::cerr << "MERGER: failed to serialize StaticGraphHash" << std::endl;
+        return;
+    }
+
+    uint32_t len = static_cast<uint32_t>(payload.size());
+    uint32_t netlen = htonl(len);
+
+    if (!writeNBytes(fd, &netlen, sizeof(netlen)))
+    {
+        std::cerr << "MERGER: failed to write static hash length to fd " << fd << std::endl;
+        return;
+    }
+
+    if (!writeNBytes(fd, payload.data(), payload.size()))
+    {
+        std::cerr << "MERGER: failed to write static hash payload to fd " << fd << std::endl;
         return;
     }
 }

@@ -7,7 +7,12 @@
       "Read(//root/**)",
       "Read(///wsl.localhost/Ubuntu//**)",
       "Bash(xargs wc -l)",
-      "mcp__plugin_oh-my-claudecode_t__state_write"
+      "mcp__plugin_oh-my-claudecode_t__state_write",
+      "PowerShell(wsl -d Ubuntu -- bash -c \"cd /home/brian/SocketAdventures/Caerus/proto && protoc --cpp_out=. request.proto graph_snapshot.proto 2>&1; echo 'protoc exit:' $?\")",
+      "PowerShell(wsl -d Ubuntu -- bash -c \"cd /home/brian/SocketAdventures/Caerus/Server && make 2>&1 | tail -20\")",
+      "PowerShell(wsl -d Ubuntu -- bash -c \"cd /home/brian/SocketAdventures/Caerus/test && make 2>&1 | tail -20\")",
+      "mcp__plugin_oh-my-claudecode_t__state_list_active",
+      "mcp__plugin_oh-my-claudecode_t__state_clear"
     ]
   }
 }

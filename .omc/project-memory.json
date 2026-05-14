@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1778515288794,
+  "lastScanned": 1778675926592,
   "projectRoot": "\\\\wsl.localhost\\Ubuntu\\home\\brian\\SocketAdventures",
   "techStack": {
     "languages": [],
@@ -32,32 +32,40 @@
     "Caerus": {
       "path": "Caerus",
       "purpose": null,
-      "fileCount": 7,
-      "lastAccessed": 1778515288763,
+      "fileCount": 8,
+      "lastAccessed": 1778675926552,
       "keyFiles": [
         "Dockerfile",
+        "image.png",
         "docker_servers.json",
         "docker-compose.yml",
         "README.md"
-      ]
-    },
-    "Caerus\\test": {
-      "path": "Caerus\\test",
-      "purpose": "Test files",
-      "fileCount": 7,
-      "lastAccessed": 1778515288767,
-      "keyFiles": [
-        "main.o",
-        "2.json",
-        "main"
       ]
     }
   },
   "hotPaths": [
     {
+      "path": "Caerus\\Server\\graph.cpp",
+      "accessCount": 27,
+      "lastAccessed": 1778763483662,
+      "type": "file"
+    },
+    {
       "path": "Caerus/test/main.cpp",
       "accessCount": 20,
       "lastAccessed": 1778418083813,
+      "type": "file"
+    },
+    {
+      "path": "Caerus\\Server\\merger.cpp",
+      "accessCount": 17,
+      "lastAccessed": 1778763415647,
+      "type": "file"
+    },
+    {
+      "path": "Caerus\\Server\\graph.h",
+      "accessCount": 14,
+      "lastAccessed": 1778763409833,
       "type": "file"
     },
     {
@@ -85,15 +93,39 @@
       "type": "file"
     },
     {
+      "path": "Caerus\\Server\\transaction.h",
+      "accessCount": 8,
+      "lastAccessed": 1778763484584,
+      "type": "file"
+    },
+    {
       "path": "Caerus/Server/merger.h",
       "accessCount": 7,
       "lastAccessed": 1778418038283,
       "type": "file"
     },
     {
-      "path": "Caerus\\Server\\merger.cpp",
+      "path": "Caerus\\Server",
       "accessCount": 7,
-      "lastAccessed": 1778517871339,
+      "lastAccessed": 1778763423158,
+      "type": "directory"
+    },
+    {
+      "path": "Caerus\\proto\\request.proto",
+      "accessCount": 6,
+      "lastAccessed": 1778763409273,
+      "type": "file"
+    },
+    {
+      "path": "Caerus\\Server\\merger.h",
+      "accessCount": 6,
+      "lastAccessed": 1778763410164,
+      "type": "file"
+    },
+    {
+      "path": "Caerus\\Server\\client.cpp",
+      "accessCount": 6,
+      "lastAccessed": 1778763416049,
       "type": "file"
     },
     {
@@ -106,12 +138,6 @@
       "path": "Caerus/Dockerfile",
       "accessCount": 5,
       "lastAccessed": 1778221528677,
-      "type": "file"
-    },
-    {
-      "path": "Caerus\\Server\\graph.cpp",
-      "accessCount": 5,
-      "lastAccessed": 1778517829742,
       "type": "file"
     },
     {
@@ -133,15 +159,15 @@
       "type": "file"
     },
     {
-      "path": "Caerus\\Server",
+      "path": "Caerus\\Server\\utils.h",
       "accessCount": 4,
-      "lastAccessed": 1778516809734,
-      "type": "directory"
+      "lastAccessed": 1778763482192,
+      "type": "file"
     },
     {
-      "path": "Caerus\\Server\\graph.h",
+      "path": "Caerus\\proto\\graph_snapshot.proto",
       "accessCount": 4,
-      "lastAccessed": 1778517826955,
+      "lastAccessed": 1778763482968,
       "type": "file"
     },
     {
@@ -217,9 +243,9 @@
       "type": "file"
     },
     {
-      "path": "Caerus\\Server\\transaction.h",
+      "path": "Caerus\\Server\\server.cpp",
       "accessCount": 2,
-      "lastAccessed": 1778516952683,
+      "lastAccessed": 1778730093819,
       "type": "file"
     },
     {
@@ -301,24 +327,6 @@
       "type": "file"
     },
     {
-      "path": "Caerus\\Server\\merger.h",
-      "accessCount": 1,
-      "lastAccessed": 1778515441295,
-      "type": "file"
-    },
-    {
-      "path": "Caerus\\Server\\utils.h",
-      "accessCount": 1,
-      "lastAccessed": 1778515441468,
-      "type": "file"
-    },
-    {
-      "path": "Caerus\\Server\\server.cpp",
-      "accessCount": 1,
-      "lastAccessed": 1778515476495,
-      "type": "file"
-    },
-    {
       "path": "Caerus\\Server\\utils.cpp",
       "accessCount": 1,
       "lastAccessed": 1778515477052,
@@ -328,24 +336,6 @@
       "path": "Caerus\\Server\\server.h",
       "accessCount": 1,
       "lastAccessed": 1778515477129,
-      "type": "file"
-    },
-    {
-      "path": "Caerus\\proto\\graph_snapshot.proto",
-      "accessCount": 1,
-      "lastAccessed": 1778515503727,
-      "type": "file"
-    },
-    {
-      "path": "Caerus\\proto\\request.proto",
-      "accessCount": 1,
-      "lastAccessed": 1778515503784,
-      "type": "file"
-    },
-    {
-      "path": "Caerus\\Server\\client.cpp",
-      "accessCount": 1,
-      "lastAccessed": 1778515524237,
       "type": "file"
     },
     {
